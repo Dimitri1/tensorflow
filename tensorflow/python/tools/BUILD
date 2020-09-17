@@ -91,6 +91,8 @@ py_library(
     srcs_version = "PY2AND3",
     deps = [
         ":freeze_graph_lib",
+	"//tensorflow/core/user_ops:quantemu_op_py",
+	"//tensorflow/python:quantemu_ops",
     ],
 )
 

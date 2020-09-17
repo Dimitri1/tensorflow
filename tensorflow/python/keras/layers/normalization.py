@@ -39,6 +39,9 @@ from tensorflow.python.ops import variables as tf_variables
 from tensorflow.python.platform import tf_logging as logging
 from tensorflow.python.util.tf_export import keras_export
 
+import os
+from tensorflow.python.ops import quantemu_ops
+
 
 class BatchNormalizationBase(Layer):
   """Base class of Batch normalization layer (Ioffe and Szegedy, 2014).
@@ -633,6 +636,19 @@ class BatchNormalizationBase(Layer):
 
   def call(self, inputs, training=None):
     training = self._get_training_value(training)
+
+    enable_quantop_bnorm = int(os.getenv('ENABLE_QUANTOP_BNORM', 0))
+    dformat = 'unknown'
+    if enable_quantop_bnorm == 1 : 
+      inputs = quantemu_ops.quantize_emu(inputs,
+		data_format=dformat, 
+		allocate_copy=int(0), 
+                data_type=int(os.getenv('QUANTEMU_BNORM_DATA_TYPE', 0)),
+                precision=int(os.getenv('QUANTEMU_PRECISION_BNORM_INPUTS', 23)), 
+                exponent_bits=int(os.getenv('QUANTEMU_EXPBITS', 5)),
+                channel_blocking_type=int(os.getenv('QUANTEMU_CBLOCK_TYPE_BNORM_INPUTS', 0)),
+                channels_per_block=int(os.getenv('QUANTEMU_CBLOCK_SIZE_INPUTS', 0)),
+                round_mode=int(os.getenv('QUANTEMU_BNORM_RMODE_INPUTS', 0))) 
 
     if self.virtual_batch_size is not None:
       # Virtual batches (aka ghost batches) can be simulated by reshaping the

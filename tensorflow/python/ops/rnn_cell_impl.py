@@ -27,6 +27,8 @@ from __future__ import print_function
 import collections
 import hashlib
 import numbers
+import os
+from tensorflow.python.ops import quantemu_ops
 
 from tensorflow.python.eager import context
 from tensorflow.python.framework import constant_op
@@ -765,6 +767,7 @@ class BasicLSTMCell(LayerRNNCell):
 
     gate_inputs = math_ops.matmul(
         array_ops.concat([inputs, h], 1), self._kernel)
+
     gate_inputs = nn_ops.bias_add(gate_inputs, self._bias)
 
     # i = input_gate, j = new_input, f = forget_gate, o = output_gate

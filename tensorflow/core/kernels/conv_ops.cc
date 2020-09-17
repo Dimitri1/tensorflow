@@ -933,6 +933,8 @@ void LaunchConv2DOp<GPUDevice, T>::operator()(
       dtype,                    // tensor datatype
       device_id,                // device_id
   };
+
+
   AlgorithmConfig algorithm_config;
   if (cudnn_use_autotune &&
       !AutoTuneConv::GetInstance()->Find(conv_parameters, &algorithm_config)) {

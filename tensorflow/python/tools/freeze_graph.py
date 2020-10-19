@@ -57,8 +57,8 @@ from tensorflow.python.saved_model import tag_constants
 from tensorflow.python.tools import saved_model_utils
 from tensorflow.python.training import checkpoint_management
 from tensorflow.python.training import saver as saver_lib
-from tensorflow.contrib.nccl.python.ops import nccl_ops
-nccl_ops._maybe_load_nccl_ops_so()
+#from tensorflow.contrib.nccl.python.ops import nccl_ops
+#nccl_ops._maybe_load_nccl_ops_so()
 
 import tensorflow as tf 
 import os 

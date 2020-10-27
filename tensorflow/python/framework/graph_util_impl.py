@@ -369,7 +369,7 @@ def convert_variables_to_constants(sess,
     date=None,
     instructions="Use `tf.compat.v1.graph_util.remove_training_nodes`")
 @tf_export(v1=["graph_util.remove_training_nodes"])
-def remove_training_nodes(input_graph, protected_nodes=None):
+def remove_training_nodes(input_graph, removeQuantEmu=True, protected_nodes=None):
   """Prunes out nodes that aren't needed for inference.
 
   There are nodes like Identity and CheckNumerics that are only useful
@@ -414,7 +414,7 @@ def remove_training_nodes(input_graph, protected_nodes=None):
       new_node.input.append(full_input_name)
     nodes_after_removal.append(new_node)
 
-  types_to_splice = {"Identity": True, "QuantizeEmu" : True }
+  types_to_splice = {"Identity": True, "QuantizeEmu" : removeQuantEmu }
   control_input_names = set()
   node_names_with_control_input = set()
   for node in nodes_after_removal:
